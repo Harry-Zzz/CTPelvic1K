@@ -183,11 +183,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     task = args.task
-    processes_lowres = args.processes_lowres
-    processes_fullres = args.processes_fullres
-    override = args.override
-    use_splitted = args.use_splitted
-    no_preprocessing = args.no_preprocessing
+    processes_lowres = args.processes_lowres        # 8
+    processes_fullres = args.processes_fullres          # 8
+    override = args.override            # 0
+    use_splitted = args.use_splitted            # 1
+    no_preprocessing = args.no_preprocessing               #0
 
     if override == 0:
         override = False
@@ -211,10 +211,15 @@ if __name__ == "__main__":
         raise ValueError("only 0 or 1 allowed for use_splitted")
 
    # for current task: Task11_CTPelvic1K
+
+    # nnUNet_raw文件夹到nnUNet_raw_splitted 文件夹，文件添加后缀0000
     if not use_splitted or not isdir(join(splitted_4d_output_dir, task)): # ensure is there splitted_folder have been existed or whether use it.
         print("splitting task ", task)
         split_4d(task) # split existing 4D image to some 3D images
-
+    
+    # 裁剪
     crop(task, override=override, num_threads=processes_lowres) # got cropped data and seg(with -1) in one array (m+1, d, h, w); and pkl with properties
+    # 分析,得到数据指纹，两个pkl文件在crop文件夹下
     analyze_dataset(task, override, collect_intensityproperties=True, num_processes=processes_lowres) # got two pkl file...
+    # 重采样处理
     plan_and_preprocess(task, processes_lowres, processes_fullres, no_preprocessing)
