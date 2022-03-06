@@ -6,7 +6,9 @@ Put your personal paths in here. This file will shortly be added to gitignore so
 import os
 from batchgenerators.utilities.file_and_folder_operations import maybe_mkdir_p, join
 
-Server_Base_Path = os.path.join(os.environ['HOME'],'all_data')
+# Server_Base_Path = os.path.join(os.environ['HOME'],'all_data')
+# 修改HOME为PWD，home返回用户主目录，PWD返回当前工作路径
+Server_Base_Path = os.path.join(os.environ['PWD'],'all_data')           
 
 
 # You need to set the following folders: base, preprocessing_output_dir and network_training_output_dir. See below for details.
@@ -25,9 +27,9 @@ try:
 
     # base = os.environ['nnUNet_base']
     base = f'{Server_Base_Path}/nnUNet'
-    raw_dataset_dir = join(base, "nnUNet_raw")
-    splitted_4d_output_dir = join(base, "nnUNet_raw_splitted")
-    cropped_output_dir = join(base, "nnUNet_raw_cropped")
+    raw_dataset_dir = join(base, "nnUNet_raw")          # 原始数据  
+    splitted_4d_output_dir = join(base, "nnUNet_raw_splitted")          # 拆分数据
+    cropped_output_dir = join(base, "nnUNet_raw_cropped")           # 裁剪数据
     maybe_mkdir_p(splitted_4d_output_dir)
     maybe_mkdir_p(raw_dataset_dir)
     maybe_mkdir_p(cropped_output_dir)
@@ -42,7 +44,7 @@ try:
     # preprocessing_output_dir = "/path/to/my/folder_with_preprocessed_data"
 
     # preprocessing_output_dir = os.environ['nnUNet_preprocessed']
-    preprocessing_output_dir = f'{Server_Base_Path}/nnUNet/nnUNet_processed'
+    preprocessing_output_dir = f'{Server_Base_Path}/nnUNet/nnUNet_processed'        # 预处理结果
 except KeyError:
     preprocessing_output_dir = None
 
@@ -53,6 +55,7 @@ try:
     # network_training_output_dir = "/path/to/my/folder_with_results"
 
     # network_training_output_dir = os.path.join(os.environ['RESULTS_FOLDER'], my_output_identifier)
+    # 模型参数存储
     network_training_output_dir = os.path.join(f'{Server_Base_Path}/nnUNet/nnUNet_results_folder', my_output_identifier)
     maybe_mkdir_p(network_training_output_dir)
 except KeyError:
