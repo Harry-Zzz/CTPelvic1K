@@ -55,7 +55,10 @@ if __name__ == "__main__":
     """
     train_dir = opts.train_dir
     output_folder = opts.output_dir
-    test_dir = "/path/to/testing dataset"
+#     test_dir = "/path/to/testing dataset"
+    # 修要自己修改测试数据的原始输入地址，
+    # 然后会把这些数据整理到合适的地方
+    test_dir = "/home/zhy/AAM/md0/work/seg_hip/CTPelvic1K/nnunet/all_data/nnUNet/rawdata/Task11_CTPelvic1K_test"
 
     img_dir = join(output_folder, "imagesTr")
     lab_dir = join(output_folder, "labelsTr")
